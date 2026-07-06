@@ -1,0 +1,14 @@
+# Netlify configuration — version-controlled so the build setup doesn't
+# rely solely on dashboard settings.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Pinned to the Node major this project is developed with (v24.13.1 locally).
+  NODE_VERSION = "24"
+
+# No redirect rule needed for the Decap CMS admin panel: Netlify serves
+# public/admin/index.html automatically at /admin/ (verified live —
+# /admin 301s to /admin/ and returns 200).
