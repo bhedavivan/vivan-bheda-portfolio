@@ -2,14 +2,25 @@
 # Mirrors the Astro content collections in src/content.config.ts field-for-field.
 # Field names MUST match the Zod schema exactly (camelCase) or data silently breaks.
 
+# GitHub backend: requires a GitHub OAuth App registered in Netlify
+# (Site configuration -> Access & security -> OAuth -> Install provider).
 backend:
   name: github
-  # TODO (Phase 3): replace with your real "username/repo" before production use.
-  repo: YOUR_GITHUB_USERNAME/vivan-bheda-portfolio
+  repo: bhedavivan/vivan-bheda-portfolio
   branch: main
 
-# Lets the dashboard run against `npx decap-server` locally — no GitHub OAuth needed yet.
+# ALTERNATIVE (deprecated by Netlify, but works if already enabled):
+# to use Netlify Identity + Git Gateway instead, replace the backend
+# block above with just these two lines:
+#   backend:
+#     name: git-gateway
+#     branch: main
+
+# Lets the dashboard run against `npx decap-server` locally — no OAuth needed for local edits.
 local_backend: true
+
+site_url: https://vivanbheda.com
+display_url: https://vivanbheda.com
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
