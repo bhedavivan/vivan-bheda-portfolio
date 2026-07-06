@@ -45,7 +45,13 @@ const projects = defineCollection({
     liveUrl: z.string().optional(),
     imageUrl: z.string().optional(),
     featured: z.boolean().default(false),
-    order: z.number().optional(),
+    // Forgiving on purpose: hand-edited frontmatter often arrives as
+    // order: "1" or order: "" — treat blanks as unset and coerce
+    // numeric strings instead of failing the whole deploy.
+    order: z.preprocess(
+      (v) => (v === '' || v === null ? undefined : v),
+      z.coerce.number().optional(),
+    ),
   }),
 });
 
