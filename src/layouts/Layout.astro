@@ -18,9 +18,8 @@ const navLinks = [
   { href: '/education', label: 'Education' },
   { href: '/projects', label: 'Projects' },
   { href: '/experiences', label: 'Experiences' },
-  { href: '/certificates', label: 'Certificates' },
+  { href: '/certificates', label: 'Certificates/Licenses' },
   { href: '/resume', label: 'Resume' },
-  { href: '/skills', label: 'Skills' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
   { href: '/awards', label: 'Awards' },
@@ -143,7 +142,7 @@ const footerLinks = [
       // with prefers-reduced-motion) everything is simply visible.
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!reduced && 'IntersectionObserver' in window) {
-        const targets = document.querySelectorAll<HTMLElement>('.card, .skill-group');
+        const targets = document.querySelectorAll<HTMLElement>('.card');
         const observer = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {

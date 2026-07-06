@@ -11,31 +11,38 @@ const rendered = await Promise.all(
 ---
 
 <Layout
-  title="Certificates | Vivan Bheda"
-  description="Certifications and completed programs earned by Vivan Bheda."
+  title="Certificates/Licenses | Vivan Bheda"
+  description="Certifications and licenses earned by Vivan Bheda."
 >
   <header class="page-header">
-    <h1>Certificates</h1>
+    <h1>Certificates/Licenses</h1>
     <p class="page-intro">Credentials and completed programs.</p>
   </header>
   {
     rendered.length > 0 ? (
       <ul class="card-list">
         {rendered.map(({ entry, Content }) => (
-          <li class="card">
-            <h2 class="card-title">
-              {entry.data.credentialUrl ? (
-                <a href={entry.data.credentialUrl} target="_blank" rel="noopener noreferrer">
-                  {entry.data.name}
+          <li class="card cert-card">
+            <div class="cert-logo" aria-hidden="true">
+              {entry.data.issuer.charAt(0).toUpperCase()}
+            </div>
+            <div class="cert-content">
+              <h2 class="card-title">{entry.data.name}</h2>
+              <p class="card-sub">{entry.data.issuer}</p>
+              <p class="card-meta">Issued {formatDisplayDate(entry.data.dateEarned)}</p>
+              <div class="card-body">
+                <Content />
+              </div>
+              {entry.data.credentialUrl && (
+                <a
+                  class="btn btn-secondary btn-sm btn-credential"
+                  href={entry.data.credentialUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Show credential ↗
                 </a>
-              ) : (
-                entry.data.name
               )}
-            </h2>
-            <p class="card-sub">{entry.data.issuer}</p>
-            <p class="card-meta">Earned {formatDisplayDate(entry.data.dateEarned)}</p>
-            <div class="card-body">
-              <Content />
             </div>
           </li>
         ))}

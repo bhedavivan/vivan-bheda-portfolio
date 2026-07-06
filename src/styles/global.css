@@ -156,7 +156,7 @@ main li a:not(.btn):hover {
   background: var(--accent-strong);
   color: var(--accent-contrast);
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgb(242 182 61 / 0.25);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 .btn-secondary {
@@ -690,13 +690,46 @@ main {
   margin: 0;
 }
 
-/* Skills */
-.skill-group {
-  margin-bottom: var(--space-xl);
+/* Certificates/Licenses — LinkedIn-style rows: square issuer badge,
+   name > issuer > issued date hierarchy, pill "Show credential" action */
+.cert-card {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
 }
 
-.skill-group h2 {
-  margin-bottom: var(--space-sm);
+.cert-logo {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--accent);
+}
+
+.cert-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.cert-content .card-title {
+  font-size: var(--text-base);
+}
+
+.cert-content .card-sub,
+.cert-content .card-meta {
+  margin-bottom: var(--space-2xs);
+}
+
+.btn-credential {
+  border-radius: var(--radius-full);
+  margin-top: var(--space-xs);
 }
 
 /* Empty state — intentional, not broken */

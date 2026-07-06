@@ -6,18 +6,19 @@
 
 :root {
   /* --- Color ---
-     Dark direction, committed. All text/background pairs meet
-     WCAG AA: text on bg ≈ 13:1, muted on surface ≈ 6:1,
-     accent on bg ≈ 9:1, accent-contrast on accent ≈ 10:1. */
-  --bg: #0f1319;
-  --surface: #171d26;
-  --border: #232b37;
-  --border-strong: #344050;
-  --text: #e7eaf0;
-  --text-muted: #9aa4b5;
-  --accent: #f2b63d;
-  --accent-strong: #ffcb5c;
-  --accent-contrast: #15181e;
+     Light, professional direction: off-white page, white cards,
+     navy-slate text, one deep navy-blue accent. All text/background
+     pairs meet WCAG AA: text on bg ≈ 14:1, muted on white ≈ 5.9:1,
+     accent on white ≈ 10:1, white on accent ≈ 10:1. */
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --border: #e4e8ee;
+  --border-strong: #c9d1dc;
+  --text: #172033;
+  --text-muted: #5a6577;
+  --accent: #1e40af;
+  --accent-strong: #1e3a8a;
+  --accent-contrast: #ffffff;
 
   /* --- Typography --- */
   --font-heading: 'Space Grotesk', system-ui, sans-serif;
@@ -66,9 +67,9 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* --- Elevation --- */
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.35);
-  --shadow-lift: 0 10px 28px rgb(0 0 0 / 0.35);
+  /* --- Elevation (soft, light-theme shadows) --- */
+  --shadow-card: 0 1px 2px rgb(23 32 51 / 0.06);
+  --shadow-lift: 0 10px 28px rgb(23 32 51 / 0.1);
 }
 
 /* Reduced motion: collapse all durations so every transition and

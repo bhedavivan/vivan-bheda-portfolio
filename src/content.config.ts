@@ -81,15 +81,6 @@ const awards = defineCollection({
   }),
 });
 
-const skills = defineCollection({
-  loader: contentGlob('skills'),
-  schema: z.object({
-    category: z.string(),
-    items: z.array(z.string()),
-    order: z.number().optional(),
-  }),
-});
-
 /* === SINGLETONS (exactly one editable file each) === */
 
 const home = defineCollection({
@@ -130,7 +121,6 @@ export const collections = {
   experiences,
   certificates,
   awards,
-  skills,
   home,
   about,
   contact,

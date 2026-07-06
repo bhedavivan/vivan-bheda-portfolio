@@ -61,10 +61,3 @@ function sortByOrderThen<T extends Ordered>(entries: T[], fallback: (a: T, b: T)
 export function sortProjects<T extends Ordered & { filePath?: string }>(entries: T[]): T[] {
   return sortByOrderThen(entries, (a, b) => addedAt(b) - addedAt(a));
 }
-
-/** skills: `order` ascending if set, otherwise alphabetical by category. */
-export function sortSkills<T extends Ordered & { data: { category: string } }>(
-  entries: T[],
-): T[] {
-  return sortByOrderThen(entries, (a, b) => a.data.category.localeCompare(b.data.category));
-}

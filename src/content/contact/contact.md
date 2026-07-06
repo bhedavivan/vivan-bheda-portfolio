@@ -1,7 +1,7 @@
 ---
-linkedinUrl: "#"
-githubUrl: "#"
-email: "you@example.com"
-phone: "(000) 000-0000"
+linkedinUrl: "https://linkedin.com/in/vivanbheda"
+githubUrl: "https://github.com/bhedavivan"
+email: "bheda.vivan16@gmail.com"
+phone: "(949) 686-7116"
 ---
 Feel free to reach out about internships, projects, or collaboration.
