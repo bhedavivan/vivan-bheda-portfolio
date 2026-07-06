@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { sortByDateDesc } from '../utils/sorting';
+
+const entries = sortByDateDesc(await getCollection('certificates'), (e) => e.data.dateEarned);
+const rendered = await Promise.all(
+  entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content })),
+);
+---
+
+<Layout
+  title="Certificates | Vivan Bheda"
+  description="Certifications and completed programs earned by Vivan Bheda."
+>
+  <header class="page-header">
+    <h1>Certificates</h1>
+    <p class="page-intro">Credentials and completed programs.</p>
+  </header>
+  {
+    rendered.length > 0 ? (
+      <ul class="card-list">
+        {rendered.map(({ entry, Content }) => (
+          <li class="card">
+            <h2 class="card-title">
+              {entry.data.credentialUrl ? (
+                <a href={entry.data.credentialUrl} target="_blank" rel="noopener noreferrer">
+                  {entry.data.name}
+                </a>
+              ) : (
+                entry.data.name
+              )}
+            </h2>
+            <p class="card-sub">{entry.data.issuer}</p>
+            <p class="card-meta">Earned {entry.data.dateEarned}</p>
+            <div class="card-body">
+              <Content />
+            </div>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="empty-state">Nothing here yet.</p>
+    )
+  }
+</Layout>

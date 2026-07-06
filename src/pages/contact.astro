@@ -1,0 +1,61 @@
+---
+import { getEntry, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { hasValue } from '../utils/content';
+
+const contact = await getEntry('contact', 'contact');
+if (!contact) throw new Error('Missing singleton: src/content/contact/contact.md');
+const { Content } = await render(contact);
+
+const { linkedinUrl, githubUrl, email, phone } = contact.data;
+---
+
+<Layout
+  title="Contact | Vivan Bheda"
+  description="Get in touch with Vivan Bheda — email, LinkedIn, and GitHub."
+>
+  <header class="page-header">
+    <h1>Contact</h1>
+  </header>
+  <div class="prose">
+    <Content />
+  </div>
+  <ul class="contact-actions">
+    {
+      hasValue(email) && (
+        <li>
+          <a class="btn btn-primary" href={`mailto:${email}`}>
+            {email}
+          </a>
+        </li>
+      )
+    }
+    {
+      hasValue(linkedinUrl) && (
+        <li>
+          <a class="btn btn-secondary" href={linkedinUrl} target="_blank" rel="noopener noreferrer">
+            LinkedIn
+          </a>
+        </li>
+      )
+    }
+    {
+      hasValue(githubUrl) && (
+        <li>
+          <a class="btn btn-secondary" href={githubUrl} target="_blank" rel="noopener noreferrer">
+            GitHub
+          </a>
+        </li>
+      )
+    }
+    {
+      hasValue(phone) && (
+        <li>
+          <a class="btn btn-secondary" href={`tel:${phone.replace(/[^+\d]/g, '')}`}>
+            {phone}
+          </a>
+        </li>
+      )
+    }
+  </ul>
+</Layout>

@@ -1,0 +1,48 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { sortProjects } from '../utils/sorting';
+import { hasValue } from '../utils/content';
+
+const projects = sortProjects(await getCollection('projects'));
+const rendered = await Promise.all(
+  projects.map(async (entry) => ({ entry, Content: (await render(entry)).Content })),
+);
+
+// "View All Repositories" points at the GitHub profile from the contact
+// singleton; hidden if that value is missing/blank.
+const githubUrl = (await getEntry('contact', 'contact'))?.data.githubUrl;
+---
+
+<Layout
+  title="Projects | Vivan Bheda"
+  description="Projects built by Vivan Bheda — web apps, AI experiments, and side projects with source code."
+>
+  <header class="page-header">
+    <h1>Projects</h1>
+    <p class="page-intro">Selected builds and experiments — source code for everything.</p>
+  </header>
+  {
+    rendered.length > 0 ? (
+      <div class="projects-grid">
+        {rendered.map(({ entry, Content }) => (
+          <ProjectCard project={entry} headingLevel="h2">
+            <Content />
+          </ProjectCard>
+        ))}
+      </div>
+    ) : (
+      <p class="empty-state">Nothing here yet.</p>
+    )
+  }
+  {
+    hasValue(githubUrl) && (
+      <p class="section-footer">
+        <a class="btn btn-secondary" href={githubUrl} target="_blank" rel="noopener noreferrer">
+          View All Repositories on GitHub
+        </a>
+      </p>
+    )
+  }
+</Layout>

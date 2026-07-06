@@ -1,0 +1,145 @@
+# Decap CMS configuration.
+# Mirrors the Astro content collections in src/content.config.ts field-for-field.
+# Field names MUST match the Zod schema exactly (camelCase) or data silently breaks.
+
+backend:
+  name: github
+  # TODO (Phase 3): replace with your real "username/repo" before production use.
+  repo: YOUR_GITHUB_USERNAME/vivan-bheda-portfolio
+  branch: main
+
+# Lets the dashboard run against `npx decap-server` locally — no GitHub OAuth needed yet.
+local_backend: true
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  # ============ COLLECTIONS (repeatable entries) ============
+
+  - name: "education"
+    label: "Education"
+    folder: "src/content/education"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "institution"
+    fields:
+      - { label: "Institution", name: "institution", widget: "string" }
+      - { label: "Degree", name: "degree", widget: "string" }
+      - { label: "Field of Study", name: "field", widget: "string" }
+      - { label: "Start Date (YYYY-MM, e.g. 2026-06)", name: "startDate", widget: "string" }
+      - { label: "End Date (YYYY-MM, or Present)", name: "endDate", widget: "string" }
+      - { label: "GPA", name: "gpa", widget: "string", required: false }
+      - { label: "Notes", name: "notes", widget: "string", required: false }
+      - { label: "Longer Description", name: "body", widget: "markdown", required: false }
+
+  - name: "projects"
+    label: "Projects"
+    folder: "src/content/projects"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "title"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Tech Stack", name: "techStack", widget: "list" }
+      - { label: "Repository URL", name: "repoUrl", widget: "string" }
+      - { label: "Live URL", name: "liveUrl", widget: "string", required: false }
+      - { label: "Image", name: "imageUrl", widget: "image", required: false }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Order (lower = shown first)", name: "order", widget: "number", required: false }
+      - { label: "Longer Write-up", name: "body", widget: "markdown", required: false }
+
+  - name: "experiences"
+    label: "Experiences"
+    folder: "src/content/experiences"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "company"
+    fields:
+      - { label: "Company", name: "company", widget: "string" }
+      - { label: "Role", name: "role", widget: "string" }
+      - { label: "Start Date (YYYY-MM, e.g. 2026-06)", name: "startDate", widget: "string" }
+      - { label: "End Date (YYYY-MM, or Present)", name: "endDate", widget: "string" }
+      - { label: "Location", name: "location", widget: "string" }
+      - { label: "Bullets", name: "bullets", widget: "list" }
+      - { label: "Longer Description", name: "body", widget: "markdown", required: false }
+
+  - name: "certificates"
+    label: "Certificates"
+    folder: "src/content/certificates"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "name"
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Issuer", name: "issuer", widget: "string" }
+      - { label: "Date Earned (YYYY-MM, e.g. 2026-06)", name: "dateEarned", widget: "string" }
+      - { label: "Credential URL", name: "credentialUrl", widget: "string", required: false }
+      - { label: "Notes", name: "body", widget: "markdown", required: false }
+
+  - name: "awards"
+    label: "Awards"
+    folder: "src/content/awards"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "title"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Issuer", name: "issuer", widget: "string" }
+      - { label: "Date (YYYY-MM, e.g. 2026-06)", name: "date", widget: "string" }
+      - { label: "Description", name: "description", widget: "string", required: false }
+      - { label: "Longer Description", name: "body", widget: "markdown", required: false }
+
+  - name: "skills"
+    label: "Skills"
+    folder: "src/content/skills"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "category"
+    fields:
+      - { label: "Category (e.g. Languages, Frameworks, Tools)", name: "category", widget: "string" }
+      - { label: "Items", name: "items", widget: "list" }
+      - { label: "Order (lower = shown first)", name: "order", widget: "number", required: false }
+
+  # ============ SINGLETONS (one editable record per page) ============
+
+  - name: "pages"
+    label: "Site Pages"
+    files:
+      - name: "home"
+        label: "Home Page"
+        file: "src/content/home/home.md"
+        fields:
+          - { label: "Hero Heading", name: "heroHeading", widget: "string" }
+          - { label: "Hero Subheading", name: "heroSubheading", widget: "string" }
+
+      - name: "about"
+        label: "About Page"
+        file: "src/content/about/about.md"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string", required: false }
+          - { label: "Bio (Markdown)", name: "body", widget: "markdown" }
+
+      - name: "contact"
+        label: "Contact Page"
+        file: "src/content/contact/contact.md"
+        fields:
+          - { label: "LinkedIn URL", name: "linkedinUrl", widget: "string" }
+          - { label: "GitHub URL", name: "githubUrl", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Phone", name: "phone", widget: "string", required: false }
+          - { label: "Short Blurb", name: "body", widget: "markdown", required: false }
+
+      - name: "resume"
+        label: "Resume Page"
+        file: "src/content/resume/resume.md"
+        fields:
+          - { label: "PDF Path", name: "pdfPath", widget: "string", default: "/resume.pdf" }
+          - { label: "Summary Above PDF", name: "body", widget: "markdown", required: false }

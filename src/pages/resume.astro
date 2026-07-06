@@ -1,0 +1,45 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import { getEntry, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const resume = await getEntry('resume', 'resume');
+if (!resume) throw new Error('Missing singleton: src/content/resume/resume.md');
+const { Content } = await render(resume);
+
+const pdfPath = resume.data.pdfPath;
+// Checked at build time: if the PDF isn't in public/ yet, show a clean
+// placeholder instead of a broken embed.
+const pdfExists = fs.existsSync(path.join(process.cwd(), 'public', pdfPath));
+---
+
+<Layout
+  title="Resume | Vivan Bheda"
+  description="Resume of Vivan Bheda — view online or download as PDF."
+>
+  <header class="page-header">
+    <h1>Resume</h1>
+  </header>
+  <div class="prose">
+    <Content />
+  </div>
+  <div class="resume-actions">
+    <a class="btn btn-primary" href={pdfPath} download>Download Resume (PDF)</a>
+    <!-- Mobile browsers often refuse to render PDF iframes — always offer a direct link. -->
+    <a class="section-link" href={pdfPath} target="_blank" rel="noopener noreferrer">
+      Open PDF in new tab
+    </a>
+  </div>
+  <div class="resume-frame">
+    {
+      pdfExists ? (
+        <iframe src={pdfPath} title="Resume PDF" />
+      ) : (
+        <div class="resume-frame-placeholder">
+          <p>Resume preview will appear here once uploaded.</p>
+        </div>
+      )
+    }
+  </div>
+</Layout>

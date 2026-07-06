@@ -1,0 +1,91 @@
+/* ============================================================
+   Design tokens — single source of truth for color, type,
+   spacing, and motion. Components must use these variables;
+   no one-off values elsewhere in the codebase.
+   ============================================================ */
+
+:root {
+  /* --- Color ---
+     Dark direction, committed. All text/background pairs meet
+     WCAG AA: text on bg ≈ 13:1, muted on surface ≈ 6:1,
+     accent on bg ≈ 9:1, accent-contrast on accent ≈ 10:1. */
+  --bg: #0f1319;
+  --surface: #171d26;
+  --border: #232b37;
+  --border-strong: #344050;
+  --text: #e7eaf0;
+  --text-muted: #9aa4b5;
+  --accent: #f2b63d;
+  --accent-strong: #ffcb5c;
+  --accent-contrast: #15181e;
+
+  /* --- Typography --- */
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas, monospace;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: clamp(2rem, 4vw, 2.625rem);      /* page titles */
+  --text-4xl: clamp(2.5rem, 6vw, 3.5rem);      /* hero display */
+
+  --leading-tight: 1.15;
+  --leading-normal: 1.65;
+  --tracking-tight: -0.02em;
+  --tracking-wide: 0.04em;
+
+  /* --- Spacing & layout --- */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+
+  --container-max: 68rem;
+  --prose-max: 42rem;
+
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-full: 999px;
+
+  /* --- Motion ---
+     fast: hover/click feedback; base: most state transitions;
+     slow: larger reveals. --ease-out is a strong deceleration
+     curve for entrances; --ease-in-out for symmetric state
+     changes like menu open/close. */
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* --- Elevation --- */
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.35);
+  --shadow-lift: 0 10px 28px rgb(0 0 0 / 0.35);
+}
+
+/* Reduced motion: collapse all durations so every transition and
+   animation in the system effectively disappears. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0.01ms;
+    --duration-base: 0.01ms;
+    --duration-slow: 0.01ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

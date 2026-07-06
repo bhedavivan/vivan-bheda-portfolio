@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  /** Keeps heading hierarchy valid: h3 under a section heading (Home), h2 directly under the page h1 (Projects). */
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { project, headingLevel: Heading = 'h3' } = Astro.props;
+const { title, description, techStack, repoUrl, liveUrl, imageUrl } = project.data;
+const hasBody = Astro.slots.has('default');
+---
+
+<article class="card project-card">
+  {
+    imageUrl ? (
+      <img class="project-image" src={imageUrl} alt={`Screenshot of ${title}`} />
+    ) : (
+      <div class="project-image project-image-placeholder" aria-hidden="true" />
+    )
+  }
+  <Heading class="card-title">{title}</Heading>
+  <p class="card-sub">{description}</p>
+  <ul class="tag-list">
+    {techStack.map((tech) => <li class="tag">{tech}</li>)}
+  </ul>
+  {
+    hasBody && (
+      <div class="card-body">
+        <slot />
+      </div>
+    )
+  }
+  <p class="project-links">
+    {
+      liveUrl && (
+        <a class="btn btn-primary btn-sm" href={liveUrl} target="_blank" rel="noopener noreferrer">
+          Live Demo
+        </a>
+      )
+    }
+    <a class="btn btn-secondary btn-sm" href={repoUrl} target="_blank" rel="noopener noreferrer">
+      View Code
+    </a>
+  </p>
+</article>

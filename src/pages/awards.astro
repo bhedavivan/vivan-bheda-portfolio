@@ -1,0 +1,39 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { sortByDateDesc } from '../utils/sorting';
+
+const entries = sortByDateDesc(await getCollection('awards'), (e) => e.data.date);
+const rendered = await Promise.all(
+  entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content })),
+);
+---
+
+<Layout
+  title="Awards | Vivan Bheda"
+  description="Awards and recognition received by Vivan Bheda."
+>
+  <header class="page-header">
+    <h1>Awards</h1>
+    <p class="page-intro">Recognition and honors.</p>
+  </header>
+  {
+    rendered.length > 0 ? (
+      <ul class="card-list">
+        {rendered.map(({ entry, Content }) => (
+          <li class="card">
+            <h2 class="card-title">{entry.data.title}</h2>
+            <p class="card-sub">{entry.data.issuer}</p>
+            <p class="card-meta">{entry.data.date}</p>
+            {entry.data.description && <p class="card-sub">{entry.data.description}</p>}
+            <div class="card-body">
+              <Content />
+            </div>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="empty-state">Nothing here yet.</p>
+    )
+  }
+</Layout>

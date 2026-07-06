@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { sortSkills } from '../utils/sorting';
+
+const groups = sortSkills(await getCollection('skills'));
+---
+
+<Layout
+  title="Skills | Vivan Bheda"
+  description="Technical skills of Vivan Bheda — languages, frameworks, and tools."
+>
+  <header class="page-header">
+    <h1>Skills</h1>
+    <p class="page-intro">Technologies and tools I work with.</p>
+  </header>
+  {
+    groups.length > 0 ? (
+      <div class="skills-list">
+        {groups.map((group) => (
+          <section class="skill-group">
+            <h2>{group.data.category}</h2>
+            <ul class="tag-list">
+              {group.data.items.map((item) => (
+                <li class="tag">{item}</li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    ) : (
+      <p class="empty-state">Nothing here yet.</p>
+    )
+  }
+</Layout>

@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { sortByTimeframeDesc } from '../utils/sorting';
+
+const entries = sortByTimeframeDesc(await getCollection('experiences'));
+const rendered = await Promise.all(
+  entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content })),
+);
+---
+
+<Layout
+  title="Experiences | Vivan Bheda"
+  description="Work experience of Vivan Bheda — roles, internships, and what I did in each."
+>
+  <header class="page-header">
+    <h1>Experiences</h1>
+    <p class="page-intro">Where I've worked and what I did there.</p>
+  </header>
+  {
+    rendered.length > 0 ? (
+      <ul class="card-list">
+        {rendered.map(({ entry, Content }) => (
+          <li class="card">
+            <h2 class="card-title">{entry.data.role}</h2>
+            <p class="card-sub">
+              {entry.data.company} · {entry.data.location}
+            </p>
+            <p class="card-meta">
+              {entry.data.startDate} – {entry.data.endDate}
+            </p>
+            <ul class="card-bullets">
+              {entry.data.bullets.map((bullet) => (
+                <li>{bullet}</li>
+              ))}
+            </ul>
+            <div class="card-body">
+              <Content />
+            </div>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="empty-state">Nothing here yet.</p>
+    )
+  }
+</Layout>

@@ -1,0 +1,20 @@
+---
+import { getEntry, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const about = await getEntry('about', 'about');
+if (!about) throw new Error('Missing singleton: src/content/about/about.md');
+const { Content } = await render(about);
+---
+
+<Layout
+  title="About | Vivan Bheda"
+  description="About Vivan Bheda — background, interests, and what I'm working toward."
+>
+  <header class="page-header">
+    <h1>{about.data.heading ?? 'About Me'}</h1>
+  </header>
+  <div class="prose">
+    <Content />
+  </div>
+</Layout>

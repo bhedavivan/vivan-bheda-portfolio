@@ -1,0 +1,69 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { sortProjects } from '../utils/sorting';
+import { hasValue } from '../utils/content';
+
+const home = await getEntry('home', 'home');
+if (!home) throw new Error('Missing singleton: src/content/home/home.md');
+
+const contact = (await getEntry('contact', 'contact'))?.data;
+const githubUrl = contact?.githubUrl;
+const linkedinUrl = contact?.linkedinUrl;
+
+const pdfPath = (await getEntry('resume', 'resume'))?.data.pdfPath ?? '/resume.pdf';
+
+const allProjects = await getCollection('projects');
+const featured = sortProjects(allProjects.filter((project) => project.data.featured));
+// Fallback: if nothing is marked featured, show the 3 most recently added.
+const featuredProjects = featured.length > 0 ? featured : sortProjects(allProjects).slice(0, 3);
+---
+
+<Layout
+  title="Vivan Bheda — CS Student & Builder"
+  description="Portfolio of Vivan Bheda — computer science student at UC Irvine building AI-powered web applications."
+>
+  <section class="hero">
+    <h1>{home.data.heroHeading}</h1>
+    <p class="hero-sub">{home.data.heroSubheading}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/projects">View Projects</a>
+      <a class="btn btn-secondary" href={pdfPath} download>Download Resume</a>
+      {
+        hasValue(githubUrl) && (
+          <a class="btn btn-secondary" href={githubUrl} target="_blank" rel="noopener noreferrer">
+            GitHub
+          </a>
+        )
+      }
+      {
+        hasValue(linkedinUrl) && (
+          <a class="btn btn-secondary" href={linkedinUrl} target="_blank" rel="noopener noreferrer">
+            LinkedIn
+          </a>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section featured-projects">
+    <div class="section-header">
+      <h2>Featured Projects</h2>
+    </div>
+    {
+      featuredProjects.length > 0 ? (
+        <div class="projects-grid">
+          {featuredProjects.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      ) : (
+        <p class="empty-state">Nothing here yet.</p>
+      )
+    }
+    <p class="section-footer">
+      <a class="section-link" href="/projects">View All Projects →</a>
+    </p>
+  </section>
+</Layout>

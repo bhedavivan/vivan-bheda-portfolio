@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { sortByTimeframeDesc } from '../utils/sorting';
+
+const entries = sortByTimeframeDesc(await getCollection('education'));
+const rendered = await Promise.all(
+  entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content })),
+);
+---
+
+<Layout
+  title="Education | Vivan Bheda"
+  description="Academic background of Vivan Bheda — degrees, coursework, and academic highlights."
+>
+  <header class="page-header">
+    <h1>Education</h1>
+    <p class="page-intro">My academic background.</p>
+  </header>
+  {
+    rendered.length > 0 ? (
+      <ul class="card-list">
+        {rendered.map(({ entry, Content }) => (
+          <li class="card">
+            <h2 class="card-title">{entry.data.institution}</h2>
+            <p class="card-sub">
+              {entry.data.degree} in {entry.data.field}
+            </p>
+            <p class="card-meta">
+              {entry.data.startDate} – {entry.data.endDate}
+              {entry.data.gpa && <> · GPA {entry.data.gpa}</>}
+            </p>
+            {entry.data.notes && <p class="card-sub">{entry.data.notes}</p>}
+            <div class="card-body">
+              <Content />
+            </div>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="empty-state">Nothing here yet.</p>
+    )
+  }
+</Layout>
