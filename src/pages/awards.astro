@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { sortByDateDesc } from '../utils/sorting';
+import { formatDisplayDate } from '../utils/dates';
 
 const entries = sortByDateDesc(await getCollection('awards'), (e) => e.data.date);
 const rendered = await Promise.all(
@@ -24,7 +25,7 @@ const rendered = await Promise.all(
           <li class="card">
             <h2 class="card-title">{entry.data.title}</h2>
             <p class="card-sub">{entry.data.issuer}</p>
-            <p class="card-meta">{entry.data.date}</p>
+            <p class="card-meta">{formatDisplayDate(entry.data.date)}</p>
             {entry.data.description && <p class="card-sub">{entry.data.description}</p>}
             <div class="card-body">
               <Content />

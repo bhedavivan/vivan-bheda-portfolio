@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { sortByTimeframeDesc } from '../utils/sorting';
+import { formatDisplayDate } from '../utils/dates';
 
 const entries = sortByTimeframeDesc(await getCollection('experiences'));
 const rendered = await Promise.all(
@@ -27,7 +28,7 @@ const rendered = await Promise.all(
               {entry.data.company} · {entry.data.location}
             </p>
             <p class="card-meta">
-              {entry.data.startDate} – {entry.data.endDate}
+              {formatDisplayDate(entry.data.startDate)} – {formatDisplayDate(entry.data.endDate)}
             </p>
             <ul class="card-bullets">
               {entry.data.bullets.map((bullet) => (

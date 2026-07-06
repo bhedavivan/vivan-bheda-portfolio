@@ -1,12 +1,18 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-// Site-wide date standard: every date field is "YYYY-MM" (e.g. "2026-06"),
-// or the literal "Present" where an end date allows it. Enforced with a regex
-// so a bad format fails the build instead of silently mis-sorting.
+// Site-wide date standard: every date field is stored as "YYYY-MM" (e.g.
+// "2026-06") or, if a specific day matters, "YYYY-MM-DD" (e.g. "2026-06-15"),
+// or the literal "Present" where an end date allows it. ISO order keeps plain
+// string comparison chronologically correct for sorting (see utils/sorting.ts).
+// Pages format these for display as "MM/YYYY" or "MM/DD/YYYY" via
+// utils/dates.ts — never render the raw stored string.
 const yearMonth = z
   .string()
-  .regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Dates must use the "YYYY-MM" format, e.g. "2026-06"');
+  .regex(
+    /^\d{4}-(0[1-9]|1[0-2])(-(0[1-9]|[12]\d|3[01]))?$/,
+    'Dates must use "YYYY-MM" or "YYYY-MM-DD" format, e.g. "2026-06" or "2026-06-15"',
+  );
 const yearMonthOrPresent = z.union([yearMonth, z.literal('Present')]);
 
 // The [^_] in the pattern excludes files whose names start with "_"

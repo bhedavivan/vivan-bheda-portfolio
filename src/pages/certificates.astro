@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { sortByDateDesc } from '../utils/sorting';
+import { formatDisplayDate } from '../utils/dates';
 
 const entries = sortByDateDesc(await getCollection('certificates'), (e) => e.data.dateEarned);
 const rendered = await Promise.all(
@@ -32,7 +33,7 @@ const rendered = await Promise.all(
               )}
             </h2>
             <p class="card-sub">{entry.data.issuer}</p>
-            <p class="card-meta">Earned {entry.data.dateEarned}</p>
+            <p class="card-meta">Earned {formatDisplayDate(entry.data.dateEarned)}</p>
             <div class="card-body">
               <Content />
             </div>
