@@ -8,6 +8,14 @@ if (!contact) throw new Error('Missing singleton: src/content/contact/contact.md
 const { Content } = await render(contact);
 
 const { linkedinUrl, githubUrl, email, phone } = contact.data;
+
+// tel: link in full international form so it dials correctly from anywhere;
+// a 10-digit US number gets +1 prefixed, a number typed with + is kept as-is.
+const phoneDigits = (phone ?? '').replace(/[^+\d]/g, '');
+const telHref =
+  phoneDigits.startsWith('+') ? `tel:${phoneDigits}`
+  : phoneDigits.length === 10 ? `tel:+1${phoneDigits}`
+  : `tel:${phoneDigits}`;
 ---
 
 <Layout
@@ -51,7 +59,7 @@ const { linkedinUrl, githubUrl, email, phone } = contact.data;
     {
       hasValue(phone) && (
         <li>
-          <a class="btn btn-secondary" href={`tel:${phone.replace(/[^+\d]/g, '')}`}>
+          <a class="btn btn-secondary" href={telHref}>
             {phone}
           </a>
         </li>
