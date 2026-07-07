@@ -1,18 +1,36 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import { sortByTimeframeDesc } from '../utils/sorting';
-import { formatDisplayDate } from '../utils/dates';
+import { sortExperiences, sortRolesDesc } from '../utils/sorting';
+import { formatDisplayDate, formatDuration } from '../utils/dates';
 
-const entries = sortByTimeframeDesc(await getCollection('experiences'));
+const entries = sortExperiences(await getCollection('experiences'));
 const rendered = await Promise.all(
-  entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content })),
+  entries.map(async (entry) => ({
+    entry,
+    roles: sortRolesDesc(entry.data.roles),
+    Content: (await render(entry)).Content,
+  })),
 );
+
+// Company-level tenure: earliest role start → latest role end
+// ("Present" if any role is ongoing).
+function companyTenure(roles: { startDate: string; endDate: string }[]): string {
+  if (roles.length === 0) return '';
+  const earliestStart = roles.reduce(
+    (min, r) => (r.startDate < min ? r.startDate : min),
+    roles[0].startDate,
+  );
+  const latestEnd = roles.some((r) => r.endDate === 'Present')
+    ? 'Present'
+    : roles.reduce((max, r) => (r.endDate > max ? r.endDate : max), roles[0].endDate);
+  return formatDuration(earliestStart, latestEnd);
+}
 ---
 
 <Layout
   title="Experiences | Vivan Bheda"
-  description="Work experience of Vivan Bheda — roles, internships, and what I did in each."
+  description="Work experience of Vivan Bheda — companies, roles, and what I did in each."
 >
   <header class="page-header">
     <h1>Experiences</h1>
@@ -21,20 +39,35 @@ const rendered = await Promise.all(
   {
     rendered.length > 0 ? (
       <ul class="card-list">
-        {rendered.map(({ entry, Content }) => (
-          <li class="card">
-            <h2 class="card-title">{entry.data.role}</h2>
+        {rendered.map(({ entry, roles, Content }) => (
+          <li class="card exp-card">
+            <h2 class="card-title">{entry.data.company}</h2>
             <p class="card-sub">
-              {entry.data.company} · {entry.data.location}
+              {entry.data.location}
+              {roles.length > 1 && companyTenure(roles) && (
+                <> · {companyTenure(roles)} total</>
+              )}
             </p>
-            <p class="card-meta">
-              {formatDisplayDate(entry.data.startDate)} – {formatDisplayDate(entry.data.endDate)}
-            </p>
-            <ul class="card-bullets">
-              {entry.data.bullets.map((bullet) => (
-                <li>{bullet}</li>
+            <ol class="role-list">
+              {roles.map((role) => (
+                <li class="role">
+                  <h3 class="role-title">{role.title}</h3>
+                  <p class="card-meta">
+                    {formatDisplayDate(role.startDate)} – {formatDisplayDate(role.endDate)}
+                    {formatDuration(role.startDate, role.endDate) && (
+                      <> · {formatDuration(role.startDate, role.endDate)}</>
+                    )}
+                  </p>
+                  {role.bullets.length > 0 && (
+                    <ul class="card-bullets">
+                      {role.bullets.map((bullet) => (
+                        <li>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
               ))}
-            </ul>
+            </ol>
             <div class="card-body">
               <Content />
             </div>

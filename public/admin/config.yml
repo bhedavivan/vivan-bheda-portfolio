@@ -72,11 +72,16 @@ collections:
     identifier_field: "company"
     fields:
       - { label: "Company", name: "company", widget: "string" }
-      - { label: "Role", name: "role", widget: "string" }
-      - { label: "Start Date (enter YYYY-MM or YYYY-MM-DD, e.g. 2026-06 — displays as MM/YYYY or MM/DD/YYYY)", name: "startDate", widget: "string" }
-      - { label: "End Date (enter YYYY-MM, YYYY-MM-DD, or Present)", name: "endDate", widget: "string" }
       - { label: "Location", name: "location", widget: "string" }
-      - { label: "Bullets", name: "bullets", widget: "list" }
+      - label: "Roles (add one per position held at this company — they sort automatically, newest first)"
+        name: "roles"
+        widget: "list"
+        summary: "{{fields.title}}"
+        fields:
+          - { label: "Role Title", name: "title", widget: "string" }
+          - { label: "Start Date (enter YYYY-MM, e.g. 2026-06 — displays as MM/YYYY)", name: "startDate", widget: "string" }
+          - { label: "End Date (YYYY-MM, or Present)", name: "endDate", widget: "string" }
+          - { label: "Bullets", name: "bullets", widget: "list", required: false }
       - { label: "Longer Description", name: "body", widget: "markdown", required: false }
 
   - name: "certificates"

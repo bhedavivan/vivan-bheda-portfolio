@@ -12,16 +12,37 @@ export function compareDatesDesc(a: string, b: string): number {
   return a > b ? -1 : 1;
 }
 
-type Timeframed = { data: { startDate: string; endDate: string } };
+type Timeframe = { startDate: string; endDate: string };
 
-/** education/experiences: "Present" end dates first, then start date, newest first. */
-export function sortByTimeframeDesc<T extends Timeframed>(entries: T[]): T[] {
-  return [...entries].sort((a, b) => {
-    const aOngoing = a.data.endDate === 'Present';
-    const bOngoing = b.data.endDate === 'Present';
-    if (aOngoing !== bOngoing) return aOngoing ? -1 : 1;
-    return compareDatesDesc(a.data.startDate, b.data.startDate);
-  });
+/** "Present" end dates first, then start date, newest first. */
+function compareTimeframesDesc(a: Timeframe, b: Timeframe): number {
+  const aOngoing = a.endDate === 'Present';
+  const bOngoing = b.endDate === 'Present';
+  if (aOngoing !== bOngoing) return aOngoing ? -1 : 1;
+  return compareDatesDesc(a.startDate, b.startDate);
+}
+
+/** education: "Present" end dates first, then start date, newest first. */
+export function sortByTimeframeDesc<T extends { data: Timeframe }>(entries: T[]): T[] {
+  return [...entries].sort((a, b) => compareTimeframesDesc(a.data, b.data));
+}
+
+/** Roles inside one experience card: current role first, then newest first. */
+export function sortRolesDesc<T extends Timeframe>(roles: T[]): T[] {
+  return [...roles].sort(compareTimeframesDesc);
+}
+
+/**
+ * experiences: one entry per company, ordered by the company's most recent
+ * activity — companies with an ongoing ("Present") role first, then by the
+ * latest role start date. Companies with no roles yet sort last.
+ */
+export function sortExperiences<T extends { data: { roles: Timeframe[] } }>(entries: T[]): T[] {
+  const latest = (e: T): Timeframe => {
+    const sorted = sortRolesDesc(e.data.roles);
+    return sorted[0] ?? { startDate: '', endDate: '' };
+  };
+  return [...entries].sort((a, b) => compareTimeframesDesc(latest(a), latest(b)));
 }
 
 /** certificates/awards: single date field, newest first. */

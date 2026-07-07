@@ -127,15 +127,25 @@ const projects = defineCollection({
   }),
 });
 
+// One experience entry = one company; roles held there are a nested list
+// (LinkedIn-style). Role dates stay strict-after-normalization like all
+// other dates; a company with zero roles renders as just a header.
+const role = z.object({
+  title: text,
+  startDate: yearMonth,
+  endDate: yearMonthOrPresent,
+  bullets: textList,
+});
+
 const experiences = defineCollection({
   loader: contentGlob('experiences'),
   schema: z.object({
     company: text,
-    role: text,
-    startDate: yearMonth,
-    endDate: yearMonthOrPresent,
     location: text,
-    bullets: textList,
+    roles: z.preprocess(
+      (v) => (v === null || v === undefined ? [] : Array.isArray(v) ? v : [v]),
+      z.array(role),
+    ),
   }),
 });
 

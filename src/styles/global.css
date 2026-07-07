@@ -690,6 +690,59 @@ main {
   margin: 0;
 }
 
+/* Experiences — LinkedIn-style: company header, then each role on a
+   vertical timeline (accent dot per role, connecting line between roles) */
+.role-list {
+  list-style: none;
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.role {
+  position: relative;
+  padding-left: var(--space-lg);
+}
+
+/* timeline dot */
+.role::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.3rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  box-sizing: border-box;
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  border: 2px solid var(--accent);
+}
+
+/* connecting line down to the next role */
+.role:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: calc(0.4rem - 1px);
+  top: calc(0.3rem + 0.9rem);
+  bottom: calc(-1 * var(--space-lg) + 0.1rem);
+  width: 2px;
+  background: var(--border);
+}
+
+.role-title {
+  font-size: var(--text-base);
+  margin: 0 0 var(--space-2xs);
+}
+
+.role .card-meta {
+  margin-bottom: var(--space-xs);
+}
+
+.role .card-bullets {
+  margin-bottom: 0;
+}
+
 /* Certificates/Licenses — LinkedIn-style rows: square issuer badge,
    name > issuer > issued date hierarchy, pill "Show credential" action */
 .cert-card {
