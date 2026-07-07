@@ -73,9 +73,11 @@ collections:
     fields:
       - { label: "Company", name: "company", widget: "string" }
       - { label: "Location", name: "location", widget: "string" }
-      - label: "Roles (add one per position held at this company — they sort automatically, newest first)"
+      - label: "Roles"
+        label_singular: "Role"
         name: "roles"
         widget: "list"
+        hint: "One per position held at this company — they sort automatically, newest first."
         summary: "{{fields.title}}"
         fields:
           - { label: "Role Title", name: "title", widget: "string" }
