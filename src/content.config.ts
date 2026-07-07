@@ -84,8 +84,8 @@ const normalizeDate = (v: unknown) => {
 const dateFormat = z
   .string()
   .regex(
-    /^\d{4}-(0[1-9]|1[0-2])(-(0[1-9]|[12]\d|3[01]))?$/,
-    'Dates must use "YYYY-MM" or "YYYY-MM-DD" format, e.g. "2026-06" or "2026-06-15"',
+    /^\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12]\d|3[01]))?)?$/,
+    'Dates must use "YYYY", "YYYY-MM", or "YYYY-MM-DD" format, e.g. "2023", "2026-06", or "2026-06-15"',
   );
 const yearMonth = z.preprocess(normalizeDate, dateFormat);
 const yearMonthOrPresent = z.preprocess(

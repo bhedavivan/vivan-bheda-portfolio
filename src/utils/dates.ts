@@ -5,9 +5,10 @@
  */
 export function formatDisplayDate(value: string): string {
   if (value === 'Present') return 'Present';
-  const match = value.match(/^(\d{4})-(\d{2})(?:-(\d{2}))?$/);
+  const match = value.match(/^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?$/);
   if (!match) return value;
   const [, year, month, day] = match;
+  if (!month) return year; // year-only dates (e.g. a certificate issued "2023")
   return day ? `${month}/${day}/${year}` : `${month}/${year}`;
 }
 
