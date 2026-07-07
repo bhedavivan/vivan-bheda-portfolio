@@ -97,7 +97,9 @@ collections:
       - { label: "Name", name: "name", widget: "string" }
       - { label: "Issuer", name: "issuer", widget: "string" }
       - { label: "Date Earned (enter YYYY-MM or YYYY-MM-DD — displays as MM/YYYY or MM/DD/YYYY)", name: "dateEarned", widget: "string" }
-      - { label: "Credential URL", name: "credentialUrl", widget: "string", required: false }
+      - { label: "Badge/Logo Image", name: "imageUrl", widget: "image", required: false, hint: "Shown as the square badge; if empty, the issuer's initial is used." }
+      - { label: "Credential ID", name: "credentialId", widget: "string", required: false }
+      - { label: "Credential URL", name: "credentialUrl", widget: "string", required: false, hint: "Adds a \"Show credential\" button linking here." }
       - { label: "Notes", name: "body", widget: "markdown", required: false }
 
   - name: "awards"

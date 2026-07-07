@@ -23,13 +23,24 @@ const rendered = await Promise.all(
       <ul class="card-list">
         {rendered.map(({ entry, Content }) => (
           <li class="card cert-card">
-            <div class="cert-logo" aria-hidden="true">
-              {entry.data.issuer.charAt(0).toUpperCase()}
-            </div>
+            {
+              entry.data.imageUrl ? (
+                <div class="cert-logo">
+                  <img src={entry.data.imageUrl} alt={`${entry.data.issuer} badge`} />
+                </div>
+              ) : (
+                <div class="cert-logo" aria-hidden="true">
+                  {entry.data.issuer.charAt(0).toUpperCase()}
+                </div>
+              )
+            }
             <div class="cert-content">
               <h2 class="card-title">{entry.data.name}</h2>
               <p class="card-sub">{entry.data.issuer}</p>
               <p class="card-meta">Issued {formatDisplayDate(entry.data.dateEarned)}</p>
+              {entry.data.credentialId && (
+                <p class="card-meta">Credential ID {entry.data.credentialId}</p>
+              )}
               <div class="card-body">
                 <Content />
               </div>

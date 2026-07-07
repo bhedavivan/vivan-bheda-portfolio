@@ -155,6 +155,9 @@ const certificates = defineCollection({
     name: text,
     issuer: text,
     dateEarned: yearMonth,
+    // Badge/logo image; falls back to the issuer's initial when absent.
+    imageUrl: optionalText,
+    credentialId: optionalText,
     credentialUrl: optionalText,
   }),
 });
