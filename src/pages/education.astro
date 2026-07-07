@@ -25,7 +25,8 @@ const rendered = await Promise.all(
           <li class="card">
             <h2 class="card-title">{entry.data.institution}</h2>
             <p class="card-sub">
-              {entry.data.degree} in {entry.data.field}
+              {entry.data.degree}
+              {entry.data.field && <> in {entry.data.field}</>}
             </p>
             <p class="card-meta">
               {formatDisplayDate(entry.data.startDate)} – {formatDisplayDate(entry.data.endDate)}

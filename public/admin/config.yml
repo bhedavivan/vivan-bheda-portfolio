@@ -38,7 +38,7 @@ collections:
     fields:
       - { label: "Institution", name: "institution", widget: "string" }
       - { label: "Degree", name: "degree", widget: "string" }
-      - { label: "Field of Study", name: "field", widget: "string" }
+      - { label: "Field of Study", name: "field", widget: "string", required: false, hint: "Leave empty for programs without a major (e.g. IB Diploma)." }
       - { label: "Start Date (enter YYYY-MM or YYYY-MM-DD, e.g. 2026-06 — displays as MM/YYYY or MM/DD/YYYY)", name: "startDate", widget: "string" }
       - { label: "End Date (enter YYYY-MM, YYYY-MM-DD, or Present)", name: "endDate", widget: "string" }
       - { label: "GPA", name: "gpa", widget: "string", required: false }

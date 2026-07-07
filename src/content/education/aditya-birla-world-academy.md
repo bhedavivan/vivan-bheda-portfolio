@@ -1,10 +1,11 @@
 ---
 institution: Aditya Birla World Academy
-degree: International Baccalaureate Diploma Programme
-field: "Mathematics: Analysis & Approaches (HL) | Economics (HL) | Physics (HL)
-  | Chemistry (SL) | Spanish B (SL) | English Language & Literature (SL) |
-  Theory of Knowledge (TOK) | Extended Essay (EE) | Creativity, Activity,
-  Service (CAS)"
+degree: International Baccalaureate Diploma Programme (IBDP)
 startDate: 2022-08
 endDate: 2024-06
 ---
+**Higher Level:** Mathematics: Analysis & Approaches · Economics · Physics
+
+**Standard Level:** Chemistry · Spanish B · English Language & Literature
+
+**IB Core:** Theory of Knowledge · Extended Essay · Creativity, Activity, Service (CAS)
