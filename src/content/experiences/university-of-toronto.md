@@ -6,6 +6,8 @@ roles:
     startDate: 2023-06
     endDate: 2023-08
     bullets:
-      - "Assisted Dr. Samar Sabie's research on AI in building retrofits, studying past US retrofitting projects to define the AI's core requirements."
-      - "Explored methods to convert images, video, and other digital formats into 3D blueprints for use as AI input."
+      - "Researched historical retrofit projects across the U.S. to identify patterns for AI-based modeling."
+      - "Investigated methods to convert visual and multimedia inputs into 3D blueprints for machine learning."
+      - "Explored AI applications in sustainable architectural design to automate retrofit planning."
+      - "Collaborated with Dr. Samar Sabie on literature reviews, documentation, and prototype development."
 ---
