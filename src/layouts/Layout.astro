@@ -13,6 +13,10 @@ const {
   description = 'Portfolio of Vivan Bheda — computer science student building AI-powered web applications.',
 } = Astro.props;
 
+// Awards is toggled from the CMS (Site Settings); hidden until there's
+// content worth showing.
+const showAwards = (await getEntry('settings', 'settings'))?.data.showAwards ?? false;
+
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/education', label: 'Education' },
@@ -22,7 +26,7 @@ const navLinks = [
   { href: '/resume', label: 'Resume' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
-  { href: '/awards', label: 'Awards' },
+  ...(showAwards ? [{ href: '/awards', label: 'Awards' }] : []),
 ];
 
 // Normalize the current path (strip trailing slash, except for the root)

@@ -151,3 +151,13 @@ collections:
         fields:
           - { label: "PDF Path", name: "pdfPath", widget: "string", default: "/resume.pdf" }
           - { label: "Summary Above PDF", name: "body", widget: "markdown", required: false }
+
+      - name: "settings"
+        label: "Site Settings"
+        file: "src/content/settings/settings.md"
+        fields:
+          - label: "Show Awards page"
+            name: "showAwards"
+            widget: "boolean"
+            default: false
+            hint: "Turn ON to show the Awards page in the menu. Leave OFF to hide it until you have awards to add."

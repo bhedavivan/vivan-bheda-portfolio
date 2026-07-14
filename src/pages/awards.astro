@@ -1,14 +1,41 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { sortByDateDesc } from '../utils/sorting';
 import { formatDisplayDate } from '../utils/dates';
 
-const entries = sortByDateDesc(await getCollection('awards'), (e) => e.data.date);
+// When Awards is toggled off in the CMS (Site Settings), the page is hidden
+// from the nav; a direct visit to /awards bounces to the home page so no one
+// lands on an empty page.
+const showAwards = (await getEntry('settings', 'settings'))?.data.showAwards ?? false;
+
+const entries = showAwards
+  ? sortByDateDesc(await getCollection('awards'), (e) => e.data.date)
+  : [];
 const rendered = await Promise.all(
   entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content })),
 );
 ---
+
+{
+  !showAwards && (
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="refresh" content="0; url=/" />
+        <link rel="canonical" href="/" />
+        <meta name="robots" content="noindex" />
+        <title>Redirecting…</title>
+      </head>
+      <body>
+        <p>
+          This page isn’t available. <a href="/">Return home</a>.
+        </p>
+      </body>
+    </html>
+  )
+}
+{ showAwards && (
 
 <Layout
   title="Awards | Vivan Bheda"
@@ -38,3 +65,4 @@ const rendered = await Promise.all(
     )
   }
 </Layout>
+) }

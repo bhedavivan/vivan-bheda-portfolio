@@ -210,6 +210,15 @@ const resume = defineCollection({
   }),
 });
 
+// Site-wide toggles editable from the CMS (e.g. hide the Awards page until
+// there's content to show). Missing file / blank value defaults to hidden.
+const settings = defineCollection({
+  loader: glob({ pattern: 'settings.md', base: './src/content/settings' }),
+  schema: z.object({
+    showAwards: flag,
+  }),
+});
+
 export const collections = {
   education,
   projects,
@@ -220,4 +229,5 @@ export const collections = {
   about,
   contact,
   resume,
+  settings,
 };
