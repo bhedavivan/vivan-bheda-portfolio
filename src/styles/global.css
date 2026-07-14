@@ -670,13 +670,21 @@ main {
   border-radius: var(--radius);
   overflow: hidden;
   background: var(--surface);
+  /* Break out wider than the text column so the PDF renders larger.
+     Capped against the viewport (minus gutters) to avoid horizontal scroll. */
+  width: min(82rem, calc(100vw - 2 * var(--space-lg)));
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .resume-frame iframe {
   display: block;
   width: 100%;
-  height: 75vh;
-  max-height: 56.25rem;
+  /* Tall enough to read comfortably without a cramped scroll window;
+     min-height keeps it usable on short laptop screens. */
+  height: min(88vh, 75rem);
+  min-height: 44rem;
   border: 0;
 }
 
