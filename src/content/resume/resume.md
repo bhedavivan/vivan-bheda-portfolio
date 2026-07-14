@@ -1,4 +1,4 @@
 ---
-pdfPath: "/resume.pdf"
+pdfPath: "/Vivan-Bheda-Resume.pdf"
 ---
-Placeholder summary — this short text appears above the embedded PDF.
+A snapshot of my education, experience, and projects. View it below, or download the full PDF.
