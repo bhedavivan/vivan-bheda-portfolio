@@ -8,7 +8,8 @@ interface Props {
 }
 
 const { project, headingLevel: Heading = 'h3' } = Astro.props;
-const { title, description, techStack, repoUrl, liveUrl, imageUrl } = project.data;
+const { title, description, techStack, repoUrl, repoLabel, liveUrl, liveLabel, imageUrl } =
+  project.data;
 const hasBody = Astro.slots.has('default');
 ---
 
@@ -32,16 +33,20 @@ const hasBody = Astro.slots.has('default');
       </div>
     )
   }
-  <p class="project-links">
-    {
-      liveUrl && (
-        <a class="btn btn-primary btn-sm" href={liveUrl} target="_blank" rel="noopener noreferrer">
-          Live Demo
-        </a>
-      )
-    }
-    <a class="btn btn-secondary btn-sm" href={repoUrl} target="_blank" rel="noopener noreferrer">
-      View Code
-    </a>
-  </p>
+  {
+    (liveUrl || repoUrl) && (
+      <p class="project-links">
+        {liveUrl && (
+          <a class="btn btn-primary btn-sm" href={liveUrl} target="_blank" rel="noopener noreferrer">
+            {liveLabel || 'Live Demo'}
+          </a>
+        )}
+        {repoUrl && (
+          <a class="btn btn-secondary btn-sm" href={repoUrl} target="_blank" rel="noopener noreferrer">
+            {repoLabel || 'View Code'}
+          </a>
+        )}
+      </p>
+    )
+  }
 </article>

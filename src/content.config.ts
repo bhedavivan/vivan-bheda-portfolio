@@ -119,8 +119,13 @@ const projects = defineCollection({
     title: text,
     description: text,
     techStack: textList,
-    repoUrl: text,
+    // Two optional links per project with customizable button labels, so a
+    // project can be code ("View Code"), a live app ("Live Demo"), a paper
+    // ("Read Paper"), etc. Any link left blank simply hides its button.
+    repoUrl: optionalText,
+    repoLabel: optionalText,
     liveUrl: optionalText,
+    liveLabel: optionalText,
     imageUrl: optionalText,
     featured: flag,
     order: orderNumber,

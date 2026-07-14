@@ -56,8 +56,10 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Tech Stack", name: "techStack", widget: "list" }
-      - { label: "Repository URL", name: "repoUrl", widget: "string" }
-      - { label: "Live URL", name: "liveUrl", widget: "string", required: false }
+      - { label: "Repository / secondary link URL", name: "repoUrl", widget: "string", required: false, hint: "e.g. a GitHub repo. Leave blank to hide this button." }
+      - { label: "Secondary button label", name: "repoLabel", widget: "string", required: false, hint: "Defaults to \"View Code\". Change to e.g. \"Read Paper\"." }
+      - { label: "Live / primary link URL", name: "liveUrl", widget: "string", required: false, hint: "e.g. a live demo, Play Store page, or paper link." }
+      - { label: "Primary button label", name: "liveLabel", widget: "string", required: false, hint: "Defaults to \"Live Demo\". Change to e.g. \"View on Play Store\"." }
       - { label: "Image", name: "imageUrl", widget: "image", required: false }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
       - { label: "Order (lower = shown first)", name: "order", widget: "number", required: false }
