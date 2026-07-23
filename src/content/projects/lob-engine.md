@@ -8,6 +8,9 @@ techStack:
   - "WebSockets"
   - "scikit-learn"
 repoUrl: "https://github.com/bhedavivan/lob-engine"
+repoLabel: "View Code"
+liveUrl: "https://raw.githack.com/bhedavivan/lob-engine/main/dashboard/live.html"
+liveLabel: "Live Demo"
 imageUrl: "/images/uploads/lob-engine.png"
 featured: true
 order: 1
